@@ -1,7 +1,6 @@
----
 name: Project Board Automation
 
-'on':
+on:
   issues:
     types: [opened, assigned, closed]
   pull_request:
@@ -9,101 +8,72 @@ name: Project Board Automation
   pull_request_target:
     types: [opened, closed]
 
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  repository-projects: write
+
 jobs:
   add_to_project:
-    name: Add Issue to Project Board
     runs-on: ubuntu-latest
     if: github.event_name == 'issues' && github.event.action == 'opened'
-    permissions:
-      issues: write
-      contents: read
     steps:
-      - name: Add issue to project
-        uses: actions/add-to-project@v0.5.0
+      - uses: actions/add-to-project@v0.5.0
         with:
-          project-url: https://github.com/orgs/MINEGA-McDenver/projects/1
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          project-url: https://github.com/users/MINEGA-McDenver/projects/1
+          github-token: ${{ secrets.PERSONAL_TOKEN }}
 
   move_assigned_to_in_progress:
-    name: Move Assigned Issues to In Progress
     runs-on: ubuntu-latest
     if: github.event_name == 'issues' && github.event.action == 'assigned'
-    permissions:
-      issues: write
-      contents: read
     steps:
-      - name: Update project status
-        uses: actions/add-to-project@v0.5.0
+      - uses: actions/add-to-project@v0.5.0
         with:
-          project-url: https://github.com/orgs/MINEGA-McDenver/projects/1
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          project-url: https://github.com/users/MINEGA-McDenver/projects/1
+          github-token: ${{ secrets.PERSONAL_TOKEN }}
           labeled: in-progress
 
   move_pr_to_in_review:
-    name: Move PR to In Review
     runs-on: ubuntu-latest
-    if: |
+    if: >
       (github.event_name == 'pull_request' ||
        github.event_name == 'pull_request_target') &&
       github.event.action == 'opened'
-    permissions:
-      pull-requests: write
-      contents: read
     steps:
-      - name: Add PR to project
-        uses: actions/add-to-project@v0.5.0
+      - uses: actions/add-to-project@v0.5.0
         with:
-          project-url: https://github.com/orgs/MINEGA-McDenver/projects/1
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          project-url: https://github.com/users/MINEGA-McDenver/projects/1
+          github-token: ${{ secrets.PERSONAL_TOKEN }}
 
   move_merged_to_done:
-    name: Move Merged PR to Done
     runs-on: ubuntu-latest
-    if: |
+    if: >
       (github.event_name == 'pull_request' ||
        github.event_name == 'pull_request_target') &&
       github.event.action == 'closed' &&
       github.event.pull_request.merged == true
-    permissions:
-      issues: write
-      pull-requests: read
-      contents: read
     steps:
-      - name: Close linked issues
-        uses: actions/github-script@v7
+      - uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PERSONAL_TOKEN }}
           script: |
             const pr = context.payload.pull_request;
             const body = pr.body || '';
 
-            // Extract issue numbers from PR body
             const issueNumbers = [];
-            const regex =
-              /(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#(\d+)/gi;
+            const regex = /(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#(\d+)/gi;
             let match;
 
             while ((match = regex.exec(body)) !== null) {
               issueNumbers.push(match[1]);
             }
 
-            // Add labels and comments to linked issues
             for (const issueNumber of issueNumbers) {
-              try {
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: issueNumber,
-                  body:
-                    `✅ Linked PR #${pr.number} has been merged. ` +
-                    `Moving to Done.`
-                });
-
-                console.log(`Updated issue #${issueNumber}`);
-              } catch (error) {
-                console.error(
-                  `Error updating issue #${issueNumber}:`,
-                  error.message
-                );
-              }
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: `✅ PR #${pr.number} was merged. Moving to Done.`
+              });
             }
