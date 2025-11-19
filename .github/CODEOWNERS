@@ -1,12 +1,12 @@
 # Default owners for everything in the repo
-* @MINEGA-McDenver @batesi-janet
+* @MINEGA-McDenver @batesijanet
 
 # Infrastructure code
-/terraform/ @batesi-janet
-/ansible/ @mutesi-shania
+/terraform/ @batesijanet
+/ansible/ @mutesishania
 
 # CI/CD pipelines
 /.github/workflows/ @MINEGA-McDenver
 
 # Security configurations
-/security/ @mutesi-liliane
+/security/ @liliaemutesi
