@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER:-devops}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-devops123}
+      POSTGRES_DB: ${DB_NAME:-devops_app}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devops"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://${DB_USER:-devops}:${DB_PASSWORD:-devops123}@database:5432/${DB_NAME:-devops_app}
+      NODE_ENV: development
+    ports:
+      - "4000:4000"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - app-network
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
