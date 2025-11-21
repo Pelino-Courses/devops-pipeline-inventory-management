@@ -182,4 +182,8 @@ npm test -- --coverage
 4. Pass all CI checks
 5. Obtain 2 peer reviews
 6. Merge to develop
-7. Periodically merge develop to main through release branch
+7. Periodically merge develop to main through release branc
+
+# DevOps Pipeline  
+Added CI Pipeline test.
+
