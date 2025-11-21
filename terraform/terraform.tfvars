@@ -1,0 +1,11 @@
+# Basic project settings
+project_name = "devopspipeline"
+environment  = "dev"
+location     = "southafricanorth"   # FIXED REGION
+
+# Virtual machine settings
+vm_size        = "Standard_B2s"
+admin_username = "azureuser"
+
+# SSH public key for VM access
+ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQD3/vJ0TDCK5pVLDtdAsYRy0RtX6IcQAqyUHW6+0TYZvPpKkbFOlXFfhbRSrYN6ueUnT95VURrBnm5Rz8kCAQyN6HSVAMGdS4hvhWSB1I3yDSxj+9I4sj5sZm9QQfCsUwZhFSQcx3STRZPBz1WuPBlW53EPFpbHIZJkr+y8OK+oCn1jwjsjDP+yIejG4YKiATVX3hucg5ULeomxWzKGMTvc2Tx1ZUy5NIUqCE6ul2mkNDxvL0G+JlrFjtk2/WBVgl78y4fUQvWB2oqoIJP+Kj7Lgs3eF2MOPmxq6r+6pBUqYWGkV386VfZODU1nRbHRrg26gwkpMFbqcMpOOCQnOhOCKvAeBlKCxiQSRLtm2nL1oIExwh6bK9ZxooQ7svlmcjZBt0K1V5uk6akjNFTsZqtvd82Knm/pKI3i4NwJ+5S+MrBQy0mFOpoGYRaLN5D6JkQ59n4nhaLa+2d3Elzyt82l81FMOgEPz90tXkyqHKiDMdVKV02FAkYr1WBXhRLw2SnGZ2ltZNU4EJQtRopLnAC1Yz0n8Efc+Y07lPCcZIZO64gNingms5rIftf/oWCxZySIQMxitBM8RuDTGbrpX/6qLp/aRpYHtYO32YUhLhrAezZnsUV20KpxhL7K2zgZt5RJG/64C5Vq16XV76LNbKdz3DUusN3f1NQ0KvLjCPTRKw== mbakenge"
