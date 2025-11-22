@@ -1,3 +1,22 @@
 body {
   font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  color: white;
+  background-color: #4CAF50; /* Green */
+}
+
+.btn.red {
+  background-color: #f44336;
+}
+
+.btn.blue {
+  background-color: #2196F3;
 }

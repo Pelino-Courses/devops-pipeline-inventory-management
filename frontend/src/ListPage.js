@@ -36,7 +36,7 @@ export default function ListPage() {
               <td>{i.quantity}</td>
               <td>
                 <Link to={`/items/edit/${i.id}`} className="btn small">Edit</Link>
-                <button onClick={() => remove(i.id)} className="btn small red">Delete</button>
+                <button onClick={() => remove(i.id)} className="btn small blue">Delete</button>
               </td>
             </tr>
           ))}
