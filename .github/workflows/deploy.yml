@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - debug-deployment
     paths:
       - 'backend/**'
       - 'frontend/**'
@@ -60,7 +61,16 @@ jobs:
       - name: Run Ansible deployment
         run: |
           cd ansible
-          ansible-playbook -i inventory/hosts playbooks/setup-server.yml -v
+          echo "Current directory:"
+          pwd
+          echo "Listing files:"
+          ls -R
+          echo "Checking inventory content:"
+          cat inventory/hosts
+          echo "Checking ansible-playbook version:"
+          ansible-playbook --version
+          echo "Running playbook with verbose output:"
+          ansible-playbook -i inventory/hosts playbooks/setup-server.yml -vvv
         env:
           ACR_NAME: ${{ secrets.ACR_NAME }}
           ACR_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER }}
