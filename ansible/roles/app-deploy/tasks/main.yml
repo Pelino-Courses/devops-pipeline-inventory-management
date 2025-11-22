@@ -7,13 +7,25 @@
     group: docker
     mode: '0755'
 
-- name: Login to Azure Container Registry
+- name: Login to Azure CLI with Service Principal
   shell: |
-    az acr login --name {{ acr_name }}
-  environment:
-    AZURE_CLIENT_ID: "{{ lookup('env', 'ARM_CLIENT_ID') }}"
-    AZURE_CLIENT_SECRET: "{{ lookup('env', 'ARM_CLIENT_SECRET') }}"
-    AZURE_TENANT_ID: "{{ lookup('env', 'ARM_TENANT_ID') }}"
+    az login --service-principal \
+      --username {{ lookup('env', 'ARM_CLIENT_ID') }} \
+      --password {{ lookup('env', 'ARM_CLIENT_SECRET') }} \
+      --tenant {{ lookup('env', 'ARM_TENANT_ID') }}
+  when: lookup('env', 'ARM_CLIENT_ID') | length > 0
+
+- name: Login to Azure Container Registry
+  shell: az acr login --name {{ acr_name }}
+  when: lookup('env', 'ARM_CLIENT_ID') | length > 0
+
+- name: Login to ACR with Docker (fallback)
+  community.docker.docker_login:
+    registry_url: "{{ acr_login_server }}"
+    username: "{{ acr_name }}"
+    password: "{{ lookup('env', 'ACR_PASSWORD') }}"
+    reauthorize: yes
+  when: lookup('env', 'ARM_CLIENT_ID') | length == 0
 
 - name: Create docker-compose file
   template:
