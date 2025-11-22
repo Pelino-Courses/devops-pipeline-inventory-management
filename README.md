@@ -1,5 +1,7 @@
 # DevOps Pipeline Project
 
+[![Branch Protection](https://img.shields.io/badge/branch-protected-green.svg)](https://github.com/Pelino-Courses/devops-pipeline-inventory-management/settings/branches)
+
 Comprehensive DevOps implementation with CI/CD, IaC, and configuration management.
 
 ## Team Members
