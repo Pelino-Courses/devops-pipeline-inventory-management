@@ -19,7 +19,7 @@ To enable automated deployment with Ansible via GitHub Actions, you need to conf
 ### Azure Container Registry
 - **`ACR_NAME`**: `devopspipelinedevacr4vokg`
 - **`ACR_LOGIN_SERVER`**: `devopspipelinedevacr4vokg.azurecr.io`
-- **`ACR_PASSWORD`**: `zbuTFzB4pbvVviDg/TDgXbwQy2Kqpji/d0fyc64xk3+ACRBgqOlz`
+- **`ACR_PASSWORD`**: `<from terraform-outputs.json or setup script>`
 
 ### Database Configuration
 - **`DB_USER`**: `devops`

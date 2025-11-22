@@ -5,7 +5,8 @@ $VM_IP = "4.221.153.23"
 $VM_USER = "azureuser"
 $ACR_NAME = "devopspipelinedevacr4vokg"
 $ACR_SERVER = "devopspipelinedevacr4vokg.azurecr.io"
-$ACR_PASSWORD = "zbuTFzB4pbvVviDg/TDgXbwQy2Kqpji/d0fyc64xk3+ACRBgqOlz"
+# ACR_PASSWORD should be set as environment variable or retrieved from terraform outputs
+$ACR_PASSWORD = $env:ACR_PASSWORD
 
 Write-Host "=== Starting Automated Deployment ===" -ForegroundColor Green
 
