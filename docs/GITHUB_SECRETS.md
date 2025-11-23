@@ -12,13 +12,14 @@ To enable automated deployment with Ansible via GitHub Actions, you need to conf
 ## Required Secrets
 
 ### Azure VM Configuration
-- **`VM_IP`**: `4.221.153.23`
+- **`VM_PUBLIC_IP`**: `4.221.153.23`
 - **`SSH_PRIVATE_KEY`**: Your SSH private key content (from `~/.ssh/id_rsa`)
   - To get this on Windows: `cat ~/.ssh/id_rsa` or `Get-Content ~\.ssh\id_rsa -Raw`
 
 ### Azure Container Registry
 - **`ACR_NAME`**: `devopspipelinedevacr4vokg`
 - **`ACR_LOGIN_SERVER`**: `devopspipelinedevacr4vokg.azurecr.io`
+- **`ACR_USERNAME`**: `devopspipelinedevacr4vokg` (usually same as ACR_NAME)
 - **`ACR_PASSWORD`**: `<from terraform-outputs.json or setup script>`
 
 ### Database Configuration
@@ -39,7 +40,7 @@ Run this PowerShell command to display all values:
 $outputs = Get-Content "terraform-outputs.json" | ConvertFrom-Json
 
 Write-Host "`n=== GitHub Secrets Configuration ===" -ForegroundColor Green
-Write-Host "`nVM_IP: $($outputs.vm_public_ip.value)"
+Write-Host "`nVM_PUBLIC_IP: $($outputs.vm_public_ip.value)"
 Write-Host "ACR_NAME: $($outputs.acr_name.value)"
 Write-Host "ACR_LOGIN_SERVER: $($outputs.acr_login_server.value)"
 Write-Host "ACR_PASSWORD: $($outputs.acr_admin_password.value)"
