@@ -52,7 +52,6 @@ jobs:
         with:
           project-url: https://github.com/users/MINEGA-McDenver/projects/1
           github-token: ${{ secrets.PERSONAL_TOKEN }}
-          status: "In Review"
 
   # ----------------------------------------------
   # 4. MOVE PR + LINKED ISSUES → DONE WHEN MERGED
