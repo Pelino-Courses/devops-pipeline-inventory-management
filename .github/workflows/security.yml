@@ -111,6 +111,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Debug - List terraform directory
+        run: |
+          echo "Contents of terraform directory:"
+          ls -la terraform/
+          echo "Current directory:"
+          pwd
+
       - name: Run tfsec
         uses: aquasecurity/tfsec-action@v1.0.3
         with:
@@ -118,6 +125,19 @@ jobs:
           format: sarif
           additional_args: --out tfsec-results.sarif
           soft_fail: true
+
+      - name: Debug - Check if SARIF was created
+        run: |
+          echo "Checking for SARIF file..."
+          ls -la terraform/ || true
+          if [ -f terraform/tfsec-results.sarif ]; then
+            echo "✅ SARIF file found!"
+            cat terraform/tfsec-results.sarif
+          else
+            echo "❌ SARIF file NOT found"
+            echo "Files in terraform directory:"
+            find terraform -type f
+          fi
 
       - name: Upload tfsec results
         uses: github/codeql-action/upload-sarif@v4
