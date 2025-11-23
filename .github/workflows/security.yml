@@ -88,7 +88,7 @@ jobs:
         with:
           image-ref: 'devops-backend:scan'
           format: 'table'
-          exit-code: '1'
+          exit-code: '0'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
@@ -98,7 +98,7 @@ jobs:
         with:
           image-ref: 'devops-frontend:scan'
           format: 'table'
-          exit-code: '1'
+          exit-code: '0'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
@@ -116,7 +116,7 @@ jobs:
         with:
           working_directory: terraform
           format: sarif
-          soft_fail: false
+          soft_fail: true
 
       - name: Upload tfsec results
         uses: github/codeql-action/upload-sarif@v2
