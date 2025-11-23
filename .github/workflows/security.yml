@@ -122,7 +122,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          sarif_file: results.sarif
+          sarif_file: terraform/results.sarif
 
       - name: Scan Ansible playbooks
         uses: ansible/ansible-lint@v6
