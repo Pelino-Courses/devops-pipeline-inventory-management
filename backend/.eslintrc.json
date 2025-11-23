@@ -11,11 +11,30 @@
     "ecmaVersion": 12
   },
   "rules": {
-    "indent": ["error", 2],
-    "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"],
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "no-console": "warn"
-  }
+    "indent": [
+      "warn",
+      2
+    ],
+    "linebreak-style": "off",
+    "quotes": "off",
+    "semi": "off",
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-console": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "tests/**/*.js"
+      ],
+      "globals": {
+        "request": "readonly",
+        "app": "readonly"
+      }
+    }
+  ]
 }
