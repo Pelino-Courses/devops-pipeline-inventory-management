@@ -14,6 +14,9 @@ router.get("/items/:id", (req, res) => {
 
 router.post("/items", (req, res) => {
   const { name, quantity } = req.body;
+  if (!name) {
+    return res.status(400).json({ error: "Name is required" });
+  }
   db.run("INSERT INTO items (name, quantity) VALUES (?, ?)", [name, quantity], function () {
     res.json({ id: this.lastID });
   });
@@ -21,6 +24,9 @@ router.post("/items", (req, res) => {
 
 router.put("/items/:id", (req, res) => {
   const { name, quantity } = req.body;
+  if (!name || !quantity) {
+    return res.status(400).json({ error: "Name and quantity are required" });
+  }
   db.run("UPDATE items SET name=?, quantity=? WHERE id=?", [name, quantity, req.params.id], () => {
     res.json({ updated: true });
   });
