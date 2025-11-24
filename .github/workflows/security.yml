@@ -120,8 +120,7 @@ jobs:
 
       - name: Run tfsec and generate SARIF
         run: |
-          cd terraform
-          tfsec . --format sarif --out tfsec-results.sarif --soft-fail || true
+          tfsec terraform --format sarif --out terraform/tfsec-results.sarif --soft-fail || true
           echo "tfsec completed"
           
       - name: Verify SARIF file exists
