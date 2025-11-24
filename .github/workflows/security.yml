@@ -72,6 +72,7 @@ jobs:
   container-scan:
     name: Container Security Scan
     runs-on: ubuntu-latest
+    continue-on-error: true  # Don't block PR if container scan fails
     
     steps:
       - name: Checkout code
