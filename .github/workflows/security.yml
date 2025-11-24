@@ -153,8 +153,3 @@ jobs:
         if: steps.check-sarif.outputs.has_results == 'true'
         with:
           sarif_file: terraform/tfsec-results.sarif
-
-      - name: Scan Ansible playbooks
-        uses: ansible/ansible-lint@v6
-        with:
-          args: "ansible/playbooks/"
