@@ -46,6 +46,7 @@ jobs:
   move_pr_to_in_review:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    continue-on-error: true  # Don't block PR if project automation fails
     steps:
       - name: Move PR to In Review
         uses: actions/add-to-project@v0.5.0
