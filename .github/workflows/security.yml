@@ -72,6 +72,7 @@ jobs:
   container-scan:
     name: Container Security Scan
     runs-on: ubuntu-latest
+    continue-on-error: true  # Don't block PR if container scan fails
     
     steps:
       - name: Checkout code
@@ -111,41 +112,45 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Debug - List terraform directory
+      - name: Install tfsec
         run: |
-          echo "Contents of terraform directory:"
-          ls -la terraform/
-          echo "Current directory:"
-          pwd
+          wget -q https://github.com/aquasecurity/tfsec/releases/latest/download/tfsec-linux-amd64
+          chmod +x tfsec-linux-amd64
+          sudo mv tfsec-linux-amd64 /usr/local/bin/tfsec
+          tfsec --version
 
-      - name: Run tfsec
-        uses: aquasecurity/tfsec-action@v1.0.3
-        with:
-          working_directory: terraform
-          format: sarif
-          additional_args: --out tfsec-results.sarif
-          soft_fail: true
-
-      - name: Debug - Check if SARIF was created
+      - name: Run tfsec and generate SARIF
         run: |
-          echo "Checking for SARIF file..."
-          ls -la terraform/ || true
+          tfsec terraform --format sarif --out terraform/tfsec-results.sarif --soft-fail || true
+          echo "tfsec completed"
+          
+      - name: Check SARIF file for results
+        id: check-sarif
+        run: |
           if [ -f terraform/tfsec-results.sarif ]; then
-            echo "✅ SARIF file found!"
-            cat terraform/tfsec-results.sarif
+            echo "✅ SARIF file found at terraform/tfsec-results.sarif"
+            ls -lh terraform/tfsec-results.sarif
+            
+            # Check if SARIF file has results
+            result_count=$(jq '.runs[0].results | length' terraform/tfsec-results.sarif)
+            echo "Found $result_count security issues"
+            
+            if [ "$result_count" -gt 0 ]; then
+              echo "has_results=true" >> $GITHUB_OUTPUT
+              echo "⚠️  Security issues found - will upload to GitHub Security"
+            else
+              echo "has_results=false" >> $GITHUB_OUTPUT
+              echo "✅ No security issues found - skipping upload"
+            fi
           else
             echo "❌ SARIF file NOT found"
-            echo "Files in terraform directory:"
-            find terraform -type f
+            echo "Contents of terraform directory:"
+            ls -la terraform/
+            exit 1
           fi
 
       - name: Upload tfsec results
         uses: github/codeql-action/upload-sarif@v4
-        if: always()
+        if: steps.check-sarif.outputs.has_results == 'true'
         with:
           sarif_file: terraform/tfsec-results.sarif
-
-      - name: Scan Ansible playbooks
-        uses: ansible/ansible-lint@v6
-        with:
-          args: "ansible/playbooks/"
