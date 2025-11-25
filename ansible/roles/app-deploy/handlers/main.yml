@@ -1,0 +1,6 @@
+---
+- name: Restart application
+  community.docker.docker_compose:
+    project_src: /opt/devops-app
+    state: present
+    restarted: yes
