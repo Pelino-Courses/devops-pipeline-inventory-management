@@ -23,6 +23,7 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/add-to-project@v0.5.0
+        continue-on-error: true
         with:
           project-url: https://github.com/users/MINEGA-McDenver/projects/1
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -37,6 +38,7 @@ jobs:
     steps:
       - name: Move to In Progress
         uses: actions/add-to-project@v0.5.0
+        continue-on-error: true
         with:
           project-url: https://github.com/users/MINEGA-McDenver/projects/1
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -51,6 +53,7 @@ jobs:
     steps:
       - name: Move PR to In Review
         uses: actions/add-to-project@v0.5.0
+        continue-on-error: true
         with:
           project-url: https://github.com/users/MINEGA-McDenver/projects/1
           github-token: ${{ secrets.GITHUB_TOKEN }}
