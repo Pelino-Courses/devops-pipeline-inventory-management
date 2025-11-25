@@ -19,13 +19,12 @@
   shell: az acr login --name {{ acr_name }}
   when: lookup('env', 'ARM_CLIENT_ID') | length > 0
 
-- name: Login to ACR with Docker (fallback)
+- name: Login to ACR with Docker
   community.docker.docker_login:
     registry_url: "{{ acr_login_server }}"
     username: "{{ acr_name }}"
     password: "{{ lookup('env', 'ACR_PASSWORD') }}"
     reauthorize: yes
-  when: lookup('env', 'ARM_CLIENT_ID') | length == 0
 
 - name: Create docker-compose file
   template:
@@ -33,6 +32,7 @@
     dest: /opt/devops-app/docker-compose.yml
     owner: "{{ ansible_user }}"
     mode: '0644'
+  notify: Restart application
 
 - name: Create environment file
   template:
@@ -40,6 +40,7 @@
     dest: /opt/devops-app/.env
     owner: "{{ ansible_user }}"
     mode: '0600'
+  notify: Restart application
 
 - name: Pull latest images
   community.docker.docker_compose:
