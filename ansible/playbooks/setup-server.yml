@@ -1,6 +1,6 @@
 ---
 - name: Configure DevOps Application Server
-  hosts: all
+  hosts: azure_vms
   become: yes
   gather_facts: yes
 

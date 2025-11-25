@@ -64,7 +64,9 @@
       }
     dest: /etc/docker/daemon.json
     mode: '0644'
-  notify: Restart Docker
+  notify:
+    - Daemon reload
+    - Restart Docker
 
 - name: Install Azure CLI
   shell: |
