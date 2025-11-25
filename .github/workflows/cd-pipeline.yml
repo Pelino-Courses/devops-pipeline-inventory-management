@@ -87,10 +87,10 @@ jobs:
           output: 'trivy-frontend-results.sarif'
 
       - name: Upload Trivy results
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
-          sarif_file: '.'
+          sarif_file: 'trivy-backend-results.sarif'
 
   deploy:
     name: Deploy to Azure VM
@@ -112,9 +112,8 @@ jobs:
       - name: Install Ansible
         run: |
           pip install ansible
-          ansible-galaxy collection install azure.azcollection
-          ansible-galaxy collection install community.docker
-          pip install -r https://raw.githubusercontent.com/ansible-collections/azure/dev/requirements-azure.txt
+          ansible-galaxy collection install -r ./ansible/requirements.yml
+          pip install azure-cli
 
       - name: Setup SSH key
         run: |
@@ -126,8 +125,12 @@ jobs:
       - name: Create Ansible inventory
         run: |
           cat > ansible/inventory/hosts << EOF
-          [app_servers]
-          azure-vm ansible_host=${{ secrets.VM_PUBLIC_IP }} ansible_user=azureuser
+          [azure_vms]
+          devops-vm ansible_host=${{ secrets.VM_PUBLIC_IP }} ansible_user=azureuser ansible_ssh_private_key_file=~/.ssh/id_rsa
+          
+          [azure_vms:vars]
+          ansible_python_interpreter=/usr/bin/python3
+          ansible_ssh_common_args='-o StrictHostKeyChecking=no'
           EOF
 
       - name: Run Ansible deployment
