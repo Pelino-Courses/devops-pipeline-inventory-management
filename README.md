@@ -2,8 +2,6 @@
 
 Comprehensive DevOps implementation with CI/CD, IaC, and configuration management.
 
-<!-- CD Pipeline Trigger: Deployment initiated -->
-
 ## Team Members
 
 - [Name 1] - DevOps Engineer (GitHub/CI/CD Lead)
