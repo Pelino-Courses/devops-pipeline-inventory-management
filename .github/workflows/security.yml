@@ -20,11 +20,13 @@ jobs:
 
       - name: Run npm audit on backend
         working-directory: ./backend
+        continue-on-error: true
         run: |
           npm audit --audit-level=moderate --json > backend-audit.json || true
 
       - name: Run npm audit on frontend
         working-directory: ./frontend
+        continue-on-error: true
         run: |
           npm audit --audit-level=moderate --json > frontend-audit.json || true
 
