@@ -36,7 +36,6 @@ sudo ufw allow 22/tcp
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw allow 3000/tcp
-sudo ufw allow 4000/tcp
 echo 'y' | sudo ufw enable
 "@
 
@@ -82,5 +81,5 @@ ssh ${VM_USER}@${VM_IP} "docker ps"
 Write-Host "`n=== Deployment Complete ===" -ForegroundColor Green
 Write-Host "`nYour application should now be accessible at:" -ForegroundColor Yellow
 Write-Host "  Frontend: http://${VM_IP}" -ForegroundColor White
-Write-Host "  Backend:  http://${VM_IP}:4000" -ForegroundColor White
+Write-Host "  Backend:  http://${VM_IP}:3000" -ForegroundColor White
 Write-Host "`nNote: It may take a few minutes for all containers to fully start." -ForegroundColor Yellow

@@ -25,7 +25,7 @@ services:
       DATABASE_URL: postgresql://${DB_USER:-devops}:${DB_PASSWORD:-devops123}@database:5432/${DB_NAME:-devops_app}
       NODE_ENV: development
     ports:
-      - "4000:4000"
+      - "3000:3000"
     depends_on:
       database:
         condition: service_healthy
@@ -40,7 +40,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
-      - REACT_APP_API_URL=http://backend:4000   # ✅ Added environment variable
+      - REACT_APP_API_URL=http://backend:3000
     ports:
       - "80:80"
     depends_on:
