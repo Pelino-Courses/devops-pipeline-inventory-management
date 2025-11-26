@@ -1,6 +1,6 @@
 ---
 - name: Restart application
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: /opt/devops-app
     state: present
-    restarted: yes
+    recreate: always
