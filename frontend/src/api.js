@@ -17,7 +17,7 @@ export async function createItem(data) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
-  });
+  }).then(res => res.json());
 }
 
 // Update item
@@ -26,7 +26,7 @@ export async function updateItem(id, data) {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
-  });
+  }).then(res => res.json());
 }
 
 // Delete item
