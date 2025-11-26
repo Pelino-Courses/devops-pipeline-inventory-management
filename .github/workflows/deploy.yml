@@ -1,17 +1,21 @@
 name: Deploy to Azure VM with Ansible
 
+# DEPRECATED: This workflow is superseded by CD Pipeline (cd-pipeline.yml)
+# Keeping for reference but disabling automatic triggers
 on:
-  push:
-    branches:
-      - main
-      - develop
-      - debug-deployment
-    paths:
-      - 'backend/**'
-      - 'frontend/**'
-      - 'ansible/**'
-      - 'docker-compose.yml'
-  workflow_dispatch:
+  workflow_dispatch:  # Manual trigger only
+
+# Original triggers (now disabled):
+# push:
+#   branches:
+#     - main
+#     - develop
+#     - debug-deployment
+#   paths:
+#     - 'backend/**'
+#     - 'frontend/**'
+#     - 'ansible/**'
+#     - 'docker-compose.yml'
 
 jobs:
   deploy:

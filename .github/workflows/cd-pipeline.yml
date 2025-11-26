@@ -5,6 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
 env:
   NODE_VERSION: '18'
   ACR_NAME: ${{ secrets.ACR_NAME }}
@@ -188,7 +193,7 @@ jobs:
           curl -f http://${{ secrets.VM_PUBLIC_IP }}:3000/health || exit 1
           
           # Test API endpoints
-          curl -f http://${{ secrets.VM_PUBLIC_IP }}:3000/api || exit 1
+          curl -f http://${{ secrets.VM_PUBLIC_IP }}:3000/items || exit 1
 
       - name: Notify deployment success
         if: success()
