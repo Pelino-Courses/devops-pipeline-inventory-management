@@ -16,8 +16,11 @@ export default function FormPage() {
 
   function save(e) {
     e.preventDefault();
-    const fn = id ? updateItem : createItem;
-    fn(id, data).then(() => navigate("/items"));
+    if (id) {
+      updateItem(id, data).then(() => navigate("/items"));
+    } else {
+      createItem(data).then(() => navigate("/items"));
+    }
   }
 
   return (
