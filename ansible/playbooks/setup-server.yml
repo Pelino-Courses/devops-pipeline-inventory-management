@@ -14,7 +14,7 @@
     db_password: "{{ lookup('env', 'DB_PASSWORD') }}"
     db_name: "{{ lookup('env', 'DB_NAME') }}"
 
-  tasks:
+  pre_tasks:
     - name: Display target host information
       debug:
         msg: "Configuring {{ inventory_hostname }} ({{ ansible_host }})"

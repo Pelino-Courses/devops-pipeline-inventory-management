@@ -43,15 +43,15 @@
   notify: Restart application
 
 - name: Pull latest images
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: /opt/devops-app
-    pull: yes
+    pull: always
 
 - name: Start application containers
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: /opt/devops-app
     state: present
-    restarted: yes
+    recreate: always
 
 - name: Wait for application to be ready
   uri:
