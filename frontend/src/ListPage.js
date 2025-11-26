@@ -42,18 +42,20 @@ export default function ListPage() {
       <table className="table">
         <thead>
           <tr>
-            <th>ID</th><th>Name</th><th>Quantity</th><th>Actions</th>
+            <th>ID</th><th>Name</th><th>Quantity</th><th>Cost/Unit</th><th>Total Value</th><th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {filteredItems.length === 0 ? (
-            <tr><td colSpan="4" style={{ textAlign: "center" }}>No items found</td></tr>
+            <tr><td colSpan="6" style={{ textAlign: "center" }}>No items found</td></tr>
           ) : (
             filteredItems.map(i => (
               <tr key={i.id}>
                 <td>{i.id}</td>
                 <td>{i.name}</td>
                 <td>{i.quantity}</td>
+                <td>${Number(i.cost || 0).toFixed(2)}</td>
+                <td>${(Number(i.quantity || 0) * Number(i.cost || 0)).toFixed(2)}</td>
                 <td>
                   <Link to={`/items/edit/${i.id}`} className="btn small" style={{ marginRight: "0.5rem" }}>Edit</Link>
                   <button onClick={() => remove(i.id)} className="btn small red">Delete</button>
