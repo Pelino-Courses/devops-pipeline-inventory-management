@@ -6,7 +6,7 @@ export default function FormPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [data, setData] = useState({ name: "", quantity: 0 });
+  const [data, setData] = useState({ name: "", quantity: 0, cost: 0 });
 
   useEffect(() => {
     if (id) {
@@ -34,7 +34,10 @@ export default function FormPage() {
         <label>Quantity</label>
         <input type="number" value={data.quantity} onChange={e => setData({ ...data, quantity: e.target.value })} />
 
-        <button className="btn">Save</button>
+        <label>Cost per Unit ($)</label>
+        <input type="number" step="0.01" value={data.cost} onChange={e => setData({ ...data, cost: e.target.value })} />
+
+        <button className="btn btn-save">Save</button>
       </form>
     </div>
   );

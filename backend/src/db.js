@@ -5,7 +5,8 @@ db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
-    quantity INTEGER
+    quantity INTEGER,
+    cost REAL DEFAULT 0
   )`);
 });
 
