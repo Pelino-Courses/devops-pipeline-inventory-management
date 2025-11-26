@@ -13,23 +13,25 @@ router.get("/items/:id", (req, res) => {
 });
 
 router.post("/items", (req, res) => {
-  const { name, quantity } = req.body;
+  const { name, quantity, cost } = req.body;
   if (!name) {
     return res.status(400).json({ error: "Name is required" });
   }
   const qty = quantity || 0;
-  db.run("INSERT INTO items (name, quantity) VALUES (?, ?)", [name, qty], function () {
+  const itemCost = cost || 0;
+  db.run("INSERT INTO items (name, quantity, cost) VALUES (?, ?, ?)", [name, qty, itemCost], function () {
     res.json({ id: this.lastID });
   });
 });
 
 router.put("/items/:id", (req, res) => {
-  const { name, quantity } = req.body;
+  const { name, quantity, cost } = req.body;
   if (!name) {
     return res.status(400).json({ error: "Name is required" });
   }
   const qty = quantity !== undefined ? quantity : 0;
-  db.run("UPDATE items SET name=?, quantity=? WHERE id=?", [name, qty, req.params.id], () => {
+  const itemCost = cost !== undefined ? cost : 0;
+  db.run("UPDATE items SET name=?, quantity=?, cost=? WHERE id=?", [name, qty, itemCost, req.params.id], () => {
     res.json({ updated: true });
   });
 });
