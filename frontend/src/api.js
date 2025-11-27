@@ -1,5 +1,5 @@
-// Use environment variable provided by Docker
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3000";
+// Use runtime configuration from config.js or fallback to environment variable
+const API_URL = (window.ENV && window.ENV.API_URL) || process.env.REACT_APP_API_URL || "http://localhost:3000";
 
 // Get all items
 export async function getItems() {

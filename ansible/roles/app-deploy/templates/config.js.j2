@@ -1,0 +1,4 @@
+// Runtime configuration - injected by Ansible during deployment
+window.ENV = {
+  API_URL: 'http://{{ ansible_host }}:3000'
+};

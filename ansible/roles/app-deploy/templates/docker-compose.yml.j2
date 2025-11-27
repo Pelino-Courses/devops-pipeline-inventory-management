@@ -45,8 +45,6 @@ services:
     container_name: devops-frontend
     ports:
       - "80:80"
-    environment:
-      REACT_APP_API_URL: http://{{ ansible_host }}:3000
     depends_on:
       - backend
     networks:
