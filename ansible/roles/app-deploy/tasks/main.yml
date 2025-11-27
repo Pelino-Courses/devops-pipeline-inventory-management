@@ -53,16 +53,16 @@
     state: present
     recreate: always
 
-- name: Wait for frontend container to be ready
-  wait_for:
-    timeout: 10
-  delegate_to: localhost
+- name: Create runtime config.js on host
+  template:
+    src: config.js.j2
+    dest: /opt/devops-app/config.js
+    owner: "{{ ansible_user }}"
+    mode: '0644'
 
-- name: Update frontend runtime configuration
-  community.docker.docker_container_exec:
-    container: devops-frontend
-    command: "/bin/sh -c \"echo 'window.ENV = { API_URL: \\\"http://{{ ansible_host }}:3000\\\" };' > /usr/share/nginx/html/config.js\""
-  ignore_errors: yes
+- name: Copy config.js into frontend container
+  ansible.builtin.command:
+    cmd: docker cp /opt/devops-app/config.js devops-frontend:/usr/share/nginx/html/config.js
 
 - name: Wait for application to be ready
   uri:
