@@ -98,11 +98,11 @@ body {
     }
 
     .btn-save {
-      background-color: rgb(16, 185, 44);
+      background-color: rgb(16, 123, 185);
     }
 
     .btn-save:hover {
-      background-color: #052c96;
+      background-color: #960535;
     }
 
     .table th {
